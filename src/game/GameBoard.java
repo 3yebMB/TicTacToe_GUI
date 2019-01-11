@@ -76,4 +76,63 @@ public class GameBoard extends JFrame {
         }
     }
 
+    Game getGame(){ return game;    }
+
+    /**
+     * метод проверки доступности клетки для хода
+     * @param x - по горизонтали
+     * @param y - по вертикали
+     * @return boolean
+     */
+
+    boolean isAvelable(int x, int y){
+        boolean result = false;
+
+        if (gameField[y][x] == nullSymbol) result = true;
+
+        return result;
+    }
+
+    /**
+     * обновление матрицы игры после хода
+     */
+
+    void updateGameField(int x, int y){
+        gameField[y][x] = game.gamePlayer().getPlayerSign();
+    }
+
+    /**
+     * проверка победы по стобцам и линиям
+     * @return флаг победы
+     */
+
+    boolean checkWin(){
+        boolean result = false;
+
+        char playerSymbol = getGame().gamePlayer().getPlayerSign();
+
+        //if ()
+    }
+
+    /**
+     * метод проверки заполнености поля
+     * @return boolean
+     */
+
+    boolean isFull(){
+        boolean result = true;
+
+        for (int i=0; i<dimension; i++){
+            for (int j=0; j<dimension; j++){
+                if (gameField[i][j] == nullSymbol)
+                    result = false;
+            }
+        }
+        return result;
+    }
+
+    public GameButton getButton(int buttonIndex){
+        return gameButtons[buttonIndex];
+    }
+
 }
