@@ -30,7 +30,7 @@ public class Game {
      * получение объекта текущего игрока
      * @return GamePlayer объект игрока
      */
-    GamePlayer gamePlayer() {   return gamePlayers[gameState];  }
+    GamePlayer getCurrentPlayer() {   return gamePlayers[gameState];  }
 
     /**
      * метод показа popup-a для пользователя
