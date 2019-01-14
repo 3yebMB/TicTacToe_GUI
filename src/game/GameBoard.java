@@ -36,6 +36,7 @@ public class GameBoard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 emptyField();
+
             }
         });
 
@@ -50,7 +51,7 @@ public class GameBoard extends JFrame {
         gameField = new char[dimension][dimension];
         gameButtons = new GameButton[dimension * dimension];
 
-        for (int i=0; i<(gameButtons.length); i++){
+        for (int i=0; i<gameButtons.length; i++){
             GameButton fieldButton = new GameButton(i, this);
             gameFieldPanel.add(fieldButton);
             gameButtons[i] = fieldButton;

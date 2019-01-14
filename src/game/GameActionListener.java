@@ -27,7 +27,8 @@ public class GameActionListener implements ActionListener {
                 board.emptyField();
             }
             else {
-                updateByAIData(board);
+                if (!board.getGame().getCurrentPlayer().isRealPlayer())
+                    updateByAIData(board);
             }
         }
         else {
@@ -52,7 +53,7 @@ public class GameActionListener implements ActionListener {
             board.emptyField();
         }
         else {
-            board.getGame().changeGameState();
+            board.getGame().passTurn();
         }
     }
 
@@ -80,7 +81,7 @@ public class GameActionListener implements ActionListener {
         }
         else {
             // передать ход
-            board.getGame().changeGameState();
+            board.getGame().passTurn();
         }
     }
 }
