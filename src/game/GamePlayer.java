@@ -2,7 +2,7 @@ package game;
 
 public class GamePlayer {
     private char playerSign;
-    private boolean realPlayer = true;
+    private boolean realPlayer;
 
     public GamePlayer(boolean isRealPlayer, char playerSign) {
         this.realPlayer = isRealPlayer;

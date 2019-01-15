@@ -19,7 +19,7 @@ public class GameActionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         GameBoard board = button.getBoard();
 
-        if (board.isAvelable(row, cell)){
+        if (board.isTurnable(row, cell)){
             updateByPlayersData(board);
 
             if (board.isFull()){
@@ -27,7 +27,8 @@ public class GameActionListener implements ActionListener {
                 board.emptyField();
             }
             else {
-                updateByAIData(board);
+                if (!board.getGame().getCurrentPlayer().isRealPlayer())
+                    updateByAIData(board);
             }
         }
         else {
@@ -37,7 +38,7 @@ public class GameActionListener implements ActionListener {
 
     /**
      * ход человека
-     * @param boad GameBoard - ссылка на игровое поле
+     * @param board GameBoard - ссылка на игровое поле
      */
 
     private void updateByPlayersData(GameBoard board){
@@ -45,14 +46,14 @@ public class GameActionListener implements ActionListener {
         board.updateGameField(row, cell);
 
         // обновить содержимое кнопки
-        button.setText(Character.toString(board.getGame().gamePlayer().getPlayerSign()));
+        button.setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
 
         if (board.checkWin()) {
             button.getBoard().getGame().showMessage("Вы выиграли!");
             board.emptyField();
         }
         else {
-            board.getGame().changeGameState();
+            board.getGame().passTurn();
         }
     }
 
@@ -64,14 +65,14 @@ public class GameActionListener implements ActionListener {
         do{
             x = rnd.nextInt(GameBoard.dimension);
             y = rnd.nextInt(GameBoard.dimension);
-        } while (!board.isAvelable(x, y));
+        } while (!board.isTurnable(x, y));
 
         // обновить матрицу игры
         board.updateGameField(x, y);
 
         // обновить содержимое кнопки
         int cellIndex = GameBoard.dimension * x + y;
-        board.getButton(cellIndex).setText(Character.toString(board.getGame().gamePlayer().getPlayerSign()));
+        board.getButton(cellIndex).setText(Character.toString(board.getGame().getCurrentPlayer().getPlayerSign()));
 
         // проверить победу
         if (board.checkWin()){
@@ -80,7 +81,7 @@ public class GameActionListener implements ActionListener {
         }
         else {
             // передать ход
-            board.getGame().changeGameState();
+            board.getGame().passTurn();
         }
     }
 }

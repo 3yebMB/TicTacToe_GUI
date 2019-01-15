@@ -5,7 +5,7 @@ import javax.swing.*;
 public class Game {
     private GameBoard board;
     private GamePlayer[] gamePlayers = new GamePlayer[2];
-    private int gameState = 0;
+    private int playersTurn = 0;
 
     public Game() {
         this.board = new GameBoard(this);
@@ -19,18 +19,18 @@ public class Game {
     /**
      * метод перехода хода
      */
-    void changeGameState(){
-        if (gameState == 0)
-            gameState = 1;
+    void passTurn(){
+        if (playersTurn == 0)
+            playersTurn = 1;
         else
-            gameState = 0;
+            playersTurn = 0;
     }
 
     /**
      * получение объекта текущего игрока
      * @return GamePlayer объект игрока
      */
-    GamePlayer gamePlayer() {   return gamePlayers[gameState];  }
+    GamePlayer getCurrentPlayer() {   return gamePlayers[playersTurn];  }
 
     /**
      * метод показа popup-a для пользователя

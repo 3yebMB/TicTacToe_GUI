@@ -36,6 +36,7 @@ public class GameBoard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 emptyField();
+
             }
         });
 
@@ -50,7 +51,7 @@ public class GameBoard extends JFrame {
         gameField = new char[dimension][dimension];
         gameButtons = new GameButton[dimension * dimension];
 
-        for (int i=0; i<(gameButtons.length); i++){
+        for (int i=0; i<gameButtons.length; i++){
             GameButton fieldButton = new GameButton(i, this);
             gameFieldPanel.add(fieldButton);
             gameButtons[i] = fieldButton;
@@ -77,31 +78,32 @@ public class GameBoard extends JFrame {
     }
 
     Game getGame(){ return game;    }
-
-    /**
+	
+	/**
      * метод проверки доступности клетки для хода
      * @param x - по горизонтали
      * @param y - по вертикали
      * @return boolean
      */
 
-    boolean isAvelable(int x, int y){
+    boolean isTurnable(int x, int y){
         boolean result = false;
 
-        if (gameField[y][x] == nullSymbol) result = true;
+        if (gameField[y][x] == nullSymbol)
+            result = true;
 
         return result;
     }
-
-    /**
+	
+	/**
      * обновление матрицы игры после хода
      */
 
     void updateGameField(int x, int y){
-        gameField[y][x] = game.gamePlayer().getPlayerSign();
+        gameField[y][x] = game.getCurrentPlayer().getPlayerSign();
     }
-
-    /**
+	
+	/**
      * проверка победы по стобцам и линиям
      * @return флаг победы
      */
@@ -109,12 +111,16 @@ public class GameBoard extends JFrame {
     boolean checkWin(){
         boolean result = false;
 
-        char playerSymbol = getGame().gamePlayer().getPlayerSign();
+        char playerSymbol = getGame().getCurrentPlayer().getPlayerSign();
 
-        //if ()
+        if (checkWinDiagonals(playerSymbol) || checkWinLines(playerSymbol)){
+            result = true;
+        }
+
+        return result;
     }
-
-    /**
+	
+	/**
      * метод проверки заполнености поля
      * @return boolean
      */
@@ -122,17 +128,55 @@ public class GameBoard extends JFrame {
     boolean isFull(){
         boolean result = true;
 
-        for (int i=0; i<dimension; i++){
-            for (int j=0; j<dimension; j++){
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
                 if (gameField[i][j] == nullSymbol)
                     result = false;
             }
         }
+
+        return result;
+    }
+
+    private boolean checkWinDiagonals(char playerSymbol){
+        boolean fslash = true, bslash = true, result = false;
+
+        for (int col = 0, row = dimension-1; (col < dimension); col++, row--) {
+            fslash &= (gameField[col][col] == playerSymbol);
+            bslash &= (gameField[row][col] == playerSymbol);
+        }
+
+        if (fslash || bslash) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    private boolean checkWinLines(char playerSymbol){
+        boolean cols, rows, result;
+
+        result = false;
+
+        for (int col = 0; col < dimension; col++) {
+            cols = true;
+            rows = true;
+
+            for (int row = 0; row < dimension; row++) {
+                cols &= (gameField[col][row] == playerSymbol);
+                rows &= (gameField[row][col] == playerSymbol);
+            }
+
+            if (cols || rows) {
+                result = true;
+                break;
+            }
+        }
+
         return result;
     }
 
     public GameButton getButton(int buttonIndex){
         return gameButtons[buttonIndex];
     }
-
 }
